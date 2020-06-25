@@ -25,7 +25,8 @@ import org.quelea.planningcenter.model.services.ServiceType;
 import org.quelea.planningcenter.model.services.Song;
 import org.quelea.planningcenter.model.services.Team;
 import org.quelea.planningcenter.model.services.TimePreferenceOption;
-import org.quelea.planningcenter.service.paths.OrganizationPath;
+import org.quelea.planningcenter.path.services.OrganizationPath;
+import org.quelea.planningcenter.util.RetrofitUtil;
 import retrofit2.Retrofit;
 import java.io.IOException;
 
@@ -34,19 +35,17 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 public class PlanningCenterClient {
 
     private final Retrofit retrofit;
-    private final OkHttpClient okHttpClient;
 
     public PlanningCenterClient(AuthToken authToken) {
-        okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(chain ->
-                        chain.proceed(chain.request().newBuilder()
-                                .header("Authorization", "Bearer " + authToken.getCurrentAccessToken().orElse("0"))
-                                .build())
-                )
-                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.planningcenteronline.com/")
-                .client(okHttpClient)
+                .client(new OkHttpClient.Builder()
+                        .addInterceptor(chain ->
+                                chain.proceed(chain.request().newBuilder()
+                                        .header("Authorization", "Bearer " + authToken.getCurrentAccessToken().orElse("0"))
+                                        .build())
+                        )
+                        .build())
                 .addConverterFactory(new JSONAPIConverterFactory(
                         new ObjectMapper()
                                 .registerModule(new JavaTimeModule())
@@ -66,14 +65,7 @@ public class PlanningCenterClient {
     }
 
     public OrganizationPath services() {
-        return new OrganizationPath(
-                retrofit.newBuilder()
-                        .baseUrl(
-                                retrofit.baseUrl()
-                                        .newBuilder("services/v2/")
-                                        .build()
-                        ).build()
-        );
+        return new OrganizationPath(RetrofitUtil.appendPath(retrofit, "services/v2/"));
     }
 
 }
