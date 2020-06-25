@@ -9,6 +9,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Objects;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
@@ -50,7 +51,7 @@ public class TokenClient {
         Call call = new OkHttpClient().newCall(request);
 
         try {
-            return OBJECT_MAPPER.readValue(call.execute().body().charStream(), RefreshToken.class);
+            return OBJECT_MAPPER.readValue(Objects.requireNonNull(call.execute().body()).charStream(), RefreshToken.class);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
