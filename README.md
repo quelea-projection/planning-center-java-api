@@ -2,6 +2,15 @@
 
 This is a Java implementation of the planning center API (v2). It's written to be used with Quelea, but has no Quelea-specific dependencies, so can easily be used elsewhere.
 
+## Setup
+
+### Maven
+    <dependency>
+    	<groupId>org.quelea</groupId>
+    	<artifactId>planning-center</artifactId>
+    	<version>0.2</version>
+    </dependency>
+
 At present only a subset of the "services" API is implemented, as that's all Quelea needs. We're more than happy to accept PR's for expanding this, however.
 
 Basic "getting started" example:
