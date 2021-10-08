@@ -11,6 +11,9 @@ This is a Java implementation of the planning center API (v2). It's written to b
     	<version>0.2</version>
     </dependency>
 
+### Gradle
+    Compile 'org.quelea:planning-center:0.2'
+
 At present only a subset of the "services" API is implemented, as that's all Quelea needs. We're more than happy to accept PR's for expanding this, however.
 
 Basic "getting started" example:
