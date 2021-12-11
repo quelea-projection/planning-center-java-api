@@ -23,7 +23,7 @@ public class PlanTime extends BaseModel {
     private String timeType;
     private boolean recorded;
     @JsonProperty("team_reminders")
-    private List<String> teamReminders;
+    private List<Reminder> teamReminders;
     @JsonProperty("starts_at")
     private LocalDateTime startsAt;
     @JsonProperty("ends_at")
